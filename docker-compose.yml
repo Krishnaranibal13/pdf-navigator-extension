@@ -1,0 +1,16 @@
+
+services:
+  pdf-navigator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pdf-navigator:latest
+    container_name: pdf-navigator
+    ports:
+      - "${APP_PORT:-8088}:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
